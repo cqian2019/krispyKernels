@@ -24,3 +24,11 @@ Came to consensus about sequence/structrure of API usage. Decided to use Ticketm
 cherylQ, derekC, simonT -- 2018-11-19 - 14:02
 ==============================================================
 Added to design doc. Contributions include list of program components, such as the APIs used, the db, and the framework front end. Also made breakdown of tasks.
+
+derekC -- 2018-11-19 - 14:05
+==============================================================
+Offered to do component map.
+
+simonT -- 2018-11-19 - 14:05
+==============================================================
+Going to do site map.
