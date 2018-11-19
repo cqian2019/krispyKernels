@@ -4,7 +4,7 @@ Derek Chan
 Kendrick Liang
 Simon Tsui
 ---------------------
-The Art of Storytelling
+ArRESTed Development
 
 ______   ______   __   __   __       ______   _______
 /_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
@@ -15,3 +15,12 @@ ______   ______   __   __   __       ______   _______
     \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
 ==============================================================
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+cherylQ, derekC, simonT, kendrickL -- 2018-11-19 13:50
+==============================================================
+Came to consensus about sequence/structrure of API usage. Decided to use Ticketmaster to find concerts, whose songs are provided by an Audio DB. Also agreed to use foundation for framework.
+
+cherylQ, derekC, simonT -- 2018-11-19 - 14:02
+==============================================================
+Added to design doc. Contributions include list of program components, such as the APIs used, the db, and the framework front end. Also made breakdown of tasks.
