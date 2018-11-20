@@ -39,4 +39,8 @@ Showed group hand-drawn component map. Currently working on computer-drawn versi
 
 simonT -- 2018-11-20 13:40
 ==============================================================
+Added to design doc an explanation of the flask app and how all of the components work together. Also added more tasks to breakdown of tasks.
 
+kendrickL -- 2018-11-20 14:00
+==============================================================
+Added a table to database schema for login information.
