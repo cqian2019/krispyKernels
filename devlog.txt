@@ -32,3 +32,11 @@ Offered to do component map.
 simonT -- 2018-11-19 - 14:05
 ==============================================================
 Going to do site map.
+
+derekC -- 2018-11-20 - 13:37
+==============================================================
+Showed group hand-drawn component map. Currently working on computer-drawn version.
+
+simonT -- 2018-11-20 13:40
+==============================================================
+
