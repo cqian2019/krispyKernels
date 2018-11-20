@@ -44,3 +44,7 @@ Added to design doc an explanation of the flask app and how all of the component
 kendrickL -- 2018-11-20 14:00
 ==============================================================
 Added a table to database schema for login information.
+
+cherylQ -- 2018-11-20 14:04
+==============================================================
+Added to site map.
