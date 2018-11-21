@@ -49,6 +49,6 @@ cherylQ -- 2018-11-20 14:04
 ==============================================================
 Added to site map.
 
-cherylQ -- 2018-11-20 22:45
+cherylQ, kendrickL -- 2018-11-20 22:45
 ==============================================================
 Created a functioning login page with db to store username and password, finished site map and design doc.
