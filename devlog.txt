@@ -52,3 +52,8 @@ Added to site map.
 cherylQ, kendrickL -- 2018-11-20 22:45
 ==============================================================
 Created a functioning login page with db to store username and password, finished site map and design doc.
+
+cherylQ, -- 2018-11-21 23:37
+==============================================================
+Created a template for api.py, skeleton with methods to return all data needed
+from APIs, assigned APIs to each team member
