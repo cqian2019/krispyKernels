@@ -57,3 +57,10 @@ cherylQ, -- 2018-11-21 23:37
 ==============================================================
 Created a template for api.py, skeleton with methods to return all data needed
 from APIs, assigned APIs to each team member
+
+cherylQ, -- 2018-XX-XX XX:XX
+==============================================================
+Added all the functions to return the data needed for assigned API (TicketMaster API)
+
+derekC, -- 2018-11-23 23:09
+==============================================================
