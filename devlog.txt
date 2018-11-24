@@ -53,14 +53,15 @@ cherylQ, kendrickL -- 2018-11-20 22:45
 ==============================================================
 Created a functioning login page with db to store username and password, finished site map and design doc.
 
-cherylQ, -- 2018-11-21 23:37
+cherylQ -- 2018-11-21 23:37
 ==============================================================
 Created a template for api.py, skeleton with methods to return all data needed
 from APIs, assigned APIs to each team member
 
-cherylQ, -- 2018-XX-XX XX:XX
+derekC -- 2018-11-23 23:09
 ==============================================================
 Added all the functions to return the data needed for assigned API (TicketMaster API)
 
-derekC, -- 2018-11-23 23:09
+kendrickL -- 2018-11-24 00:38
 ==============================================================
+Added all the functions to return the data needed for assigned API (Public Transit API)
