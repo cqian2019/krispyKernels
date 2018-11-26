@@ -65,3 +65,7 @@ Added all the functions to return the data needed for assigned API (TicketMaster
 kendrickL -- 2018-11-24 00:38
 ==============================================================
 Added all the functions to return the data needed for assigned API (Public Transit API)
+
+cherylQ -- 2018-11-26 03:02
+==============================================================
+Updated design doc (site map, components)
