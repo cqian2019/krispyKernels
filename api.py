@@ -89,7 +89,7 @@ def publicDir(start,end): #via public transit (fastest)
         elif "Stn" in step["Arr"]:
             directions += step["Arr"]["Stn"]["name"]
         directions += ". "
-    route['directions'] = directions   
+    route['directions'] = directions
     time = jdict["Res"]["Connections"]["Connection"][0]['duration']
     if 'H' in time:
         route['time'] = (int(time[2:4]) * 60) + int(time[5:7])
@@ -160,16 +160,53 @@ adKey = "195003"
 adUrl = ""
 
 def info(artist):
+    retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
+    retVal += artist
+    # retVal += "coldplay"
+    readUrl = urllib.request.urlopen(retVal)
+    hiJson = json.loads(readUrl.read())
+    info = {}
+    info['artist'] = hiJson['artists'][0]['strArtist']
+    info['bio'] = hiJson['artists'][0]['strBiographyEN']
+    info['style'] = hiJson['artists'][0]['strStyle']
+    info['genre'] = hiJson['artists'][0]['strGenre']
+    info['id'] = hiJson['artists'][0]['idArtist']
     return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
 
 def albums(artist):#uses artist id
+    retVal = "https://theaudiodb.com/api/v1/json/195003/album.php?i="
+    retVal += artist
+    # retVal += "111239"
+    readUrl = urllib.request.urlopen(retVal)
+    print(readUrl)
+    hiJson = json.loads(readUrl.read())
+    info = {}
+    i = 0
+    while (i < len(hiJson['album'])):
+        info['name' + str(i)] = hiJson['album'][i]['strAlbum']
+        info['date' + str(i)] = hiJson['album'][i]['intYearReleased']
+        info['id' + str(i)] = hiJson['album'][i]['idAlbum']
+        i+=1
     return albums #dict --> [{'name':'str', 'date':'str', 'id':int}, {dict1}, {dict2}]
 
 def tracks(album):#uses album id
+    retVal = "https://theaudiodb.com/api/v1/json/195003/album.php?i="
+    retVal += artist
+    # retVal += "111239"
+    readUrl = urllib.request.urlopen(retVal)
+    print(readUrl)
+    hiJson = json.loads(readUrl.read())
+    info = {}
+    i = 0
+    while (i < len(hiJson['album'])):
+        info['name' + str(i)] = hiJson['album'][i]['strAlbum']
+        info['date' + str(i)] = hiJson['album'][i]['intYearReleased']
+        info['id' + str(i)] = hiJson['album'][i]['idAlbum']
+        i+=1
     return tracks #list --> ['track1','track2','track3']
 
 #---------------------------DARK SKY API (Simon)---------------------------
-dsKey = ""
+dsKey = "284833a5391e29e9498e6f1adc9c656e"
 dsUrl = ""
 
 #returns weather with provided geocode and date
