@@ -5,15 +5,27 @@
 {% with msgs = get_flashed_messages() %}
 {% for each in msgs %}
 {{each}}
-<br>
 {% endfor %}
 {% endwith %}
 
 <form action = "/auth", method="POST">
+  <br>
   <input type="text" id="username" name="username" placeholder="Enter username">
-  <input type="text" id="password" name="password" placeholder="Enter password">
+  <br>
+  <input type="password" id="password" name="password" placeholder="Enter password">
+  <br><br>
   <button type="submit">Log in</button>
 
+</form>
+<br>
+<form action = "/register", method="POST">
+  <input type="text" id="username" name="username" placeholder="Enter username">
+  <br>
+  <input type="text" id="address" name="address" placeholder="Enter address">
+  <br>
+  <input type="password" id="password" name="password" placeholder="Enter password">
+  <br>
+  <button type="submit">Register</button>
 </form>
 
 {% endblock %}

@@ -131,7 +131,9 @@ def toGeo(address): #converts address to geocode/coordinates
     request=urllib.request.urlopen(ptUrl, context = ctxt)
     raw=request.read()
     jdict=json.loads(raw)
-    geocode = "" + str(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"]) + "," + str(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Longitude"])
+    geocode=[]
+    geocode.append(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"])
+    geocode.append(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Longitude"])
     #print(geocode)
     return geocode
 

@@ -69,3 +69,7 @@ Added all the functions to return the data needed for assigned API (Public Trans
 cherylQ -- 2018-11-26 03:02
 ==============================================================
 Updated design doc (site map, components)
+
+cherylQ -- 2018-11-27 01:29
+==============================================================
+Added functioning register, home displays events near user's default address
