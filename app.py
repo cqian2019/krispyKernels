@@ -56,11 +56,10 @@ def auth():
         flash('Username does not exist')
         return redirect(url_for('logout'))
 
-#@app.route('/search', methods=["GET","POST"])
-#def search():
+@app.route('/search', methods=["GET","POST"])
+def search():
 
                                    
 if __name__ == '__main__':
     app.debug = True
-    app.run()
     app.run()
