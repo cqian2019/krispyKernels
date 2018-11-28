@@ -37,7 +37,7 @@ def register():
         flash('Account successfully created')
     else:
         flash('Username already taken, try again')
-    return redirect('/')    
+    return redirect('/')
 
 @app.route('/auth', methods=["POST"])
 def auth():
@@ -52,14 +52,30 @@ def auth():
         else:
             flash('Wrong password')
             return redirect(url_for('logout'))
-    else:   
+    else:
         flash('Username does not exist')
         return redirect(url_for('logout'))
 
 @app.route('/search', methods=["GET","POST"])
 def search():
 
-                                   
+@app.route('/settings', methods=["GET","POST"])
+def settings():
+
+    return render_template("settings.html")
+
+@app.route('/saveSettings', methods=["GET","POST"])
+def saveSettings():
+    newPassword = request.form["new_password"]
+    confirmPassword = request.form["confirm_new_password"]
+    oldPassword = request.form["old_password"]
+    username = session["username"]
+    if getPass(username) == oldPassword and newPassword == confirmPassword:
+        db.setPass(username, newPassword)
+    flash("successfully updated password")
+    return redirect('/settings')
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
