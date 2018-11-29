@@ -7,7 +7,8 @@
     </title>
     {% endblock %}
     {% block content %}
-    <form action="/changeinfo">
+    Change your password:
+    <form action="saveSettings" method="POST">
 <!--
         Username:  <input type="text" name="user">
         <br>
@@ -20,4 +21,5 @@
 	Enter Old Password: <input type="password" name="old_password">
         <br>
         <input type="submit" value="Submit Changes">
+    </form>
 {% endblock %}

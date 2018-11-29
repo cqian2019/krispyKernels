@@ -6,10 +6,15 @@
   <input type="text" id="search" name="search" placeholder="Search">
   <button type="submit">Search</button>
 </form>
-<form action="/action_page.php">
-  {{info}}
-  <input type="submit" value="Submit">
+<form action="/logout">
+  <input type="submit" value="Log out">
 </form>
+<form action="/settings">
+  <input type="submit" value="Settings">
+</form>
+
+{{info}}
+
 
 
 {% endblock %}

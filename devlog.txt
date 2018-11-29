@@ -73,3 +73,7 @@ Updated design doc (site map, components, database schema)
 cherylQ -- 2018-11-27 01:29
 ==============================================================
 Added functioning register, home displays events near user's default address
+
+cherylQ, derekC -- 2018-11-28 14:05
+==============================================================
+Settings functional, user can change password

@@ -70,11 +70,13 @@ def saveSettings():
     newPassword = request.form["new_password"]
     confirmPassword = request.form["confirm_new_password"]
     oldPassword = request.form["old_password"]
-    username = session["username"]
-    if getPass(username) == oldPassword and newPassword == confirmPassword:
-        db.setPass(username, newPassword)
-    flash("successfully updated password")
-    return redirect('/settings')
+    user = session['username']
+    if db.getPass(user) == oldPassword and newPassword == confirmPassword:
+        db.setPass(user, newPassword)
+        flash("successfully updated password")
+    else:
+        flash("try again")
+    return redirect('/logout')
 
 
 if __name__ == '__main__':
