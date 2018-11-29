@@ -12,6 +12,7 @@ def login():
         events = api.getEvents(location[0],location[1])
         s = ""
         for e in events:
+            s += '<input type="radio" name="event" value="' + api.getId(e) + '">'
             s += api.getName(e) + "<br>"
             s += api.getDate(e)  + "<br>"
             s += api.getVenue(e) + "<br>"
@@ -56,8 +57,8 @@ def auth():
         flash('Username does not exist')
         return redirect(url_for('logout'))
 
-@app.route('/search', methods=["GET","POST"])
-def search():
+# @app.route('/search', methods=["GET","POST"])
+# def search():
 
 @app.route('/settings', methods=["GET","POST"])
 def settings():

@@ -7,7 +7,7 @@ ctxt = ssl._create_unverified_context()
 #---------------------TICKET MASTER API (Derek)-----------------------------
 tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
 tmId = ""
-tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&segmentName=Music&apikey={2}"
+tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&radius=50&segmentName=Music&apikey={2}"
 
 #getEvents(location) returns a list of music events - each event is a dictionary with the event name, genre, date, venue, artist lineup, link/url to event page on ticketmaster, and address
 
@@ -19,6 +19,9 @@ def getEvents(lat, long):
     tmData = json.loads(tmJson.read())
     events = tmData["_embedded"]["events"]
     return events #list[ {dict1}, {dict2},.... ]
+
+def getId(event):
+    return event["id"]
 
 def getName(event):
     return event["name"] #str
