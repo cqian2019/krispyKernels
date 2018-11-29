@@ -20,6 +20,12 @@ def getEvents(lat, long):
     events = tmData["_embedded"]["events"]
     return events #list[ {dict1}, {dict2},.... ]
 
+def singleEvent(id):
+    newUrl = "https://app.ticketmaster.com/discovery/v2/events/{0}.json?apikey={1}".format(id, tmKey)
+    tmJson = urllib.request.urlopen(newUrl, context = ctxt)
+    eventDic = json.loads(tmJson.read())
+    return eventDic
+
 def getId(event):
     return event["id"]
 
