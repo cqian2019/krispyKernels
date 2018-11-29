@@ -43,6 +43,16 @@ def getPass(user):
     db.close()
     return ret
 
+def setPass(user, pw):
+    db = sqlite3.connect("krispy.db")
+    c = db.cursor()
+    command = "UPDATE users SET password = '{0}' WHERE username = '{1}'".format(pw, user)
+    c.execute(command)
+    ret = c.fetchone()[0]
+    db.commit()
+    db.close()
+    return ret
+
 def register(user,pw,home):
     db = sqlite3.connect("krispy.db")
     c = db.cursor()
