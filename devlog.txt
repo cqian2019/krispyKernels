@@ -80,4 +80,4 @@ Settings functional, user can change password
 
 kendrickL, simonT -- 2018-11-29 22:30
 ==============================================================
-Made basic search function, still haven't accounted for incomplete searches yet
+Made basic search function (made it auto-suggest first option, but it's not always the most relevant one)

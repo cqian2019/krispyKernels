@@ -59,9 +59,13 @@ def auth():
 
 @app.route('/search', methods=["GET","POST"])
 def search():
-    result = request.values.get('search')
-    print(result)
-    location = api.toGeo(result)
+    search = request.values.get('search')
+    print(search)
+    results = api.suggest(search)
+    if len(results) != 0:
+        search = results[0][0]
+    print(search)
+    location = api.toGeo(search)
     print(location)
     events = api.getEvents(location[0],location[1])
     s = ""

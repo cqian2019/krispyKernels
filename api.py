@@ -158,6 +158,11 @@ def suggest(address): #returns suggestions for a mistyped address
         s = ""
         for step in key['address']:
             s += key['address'][step] + " "
+        sList = s.replace('>','<').split('<')
+        s = ""
+        for string in sList:
+            if 'b' not in string:
+                s += string
         suggestions.append([s])
     #print(suggestions)
     return suggestions #list of suggestions --> ["str","str","str"]
