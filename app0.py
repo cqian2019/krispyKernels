@@ -19,8 +19,8 @@ def login():
             s += api.getGenre(e) + "<br>"
             s += api.getUrl(e) + "<br>"
             s += api.getAddress(e) + "<br><br>"
-            Markup(s)
-            eventList[api.getId(e)] = s
+            
+            eventList[api.getId(e)] = Markup(s)
 
         return render_template('home.html', username=session['username'], allEvents=eventList)
 
@@ -64,8 +64,8 @@ def auth():
 # @app.route('/search', methods=["GET","POST"])
 # def search():
 
-@app.route('/artists', methods=["GET","POST"])
-def artists():
+# @app.route('/artists', methods=["GET","POST"])
+# def artists():
 
 
 

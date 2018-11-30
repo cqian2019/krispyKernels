@@ -14,8 +14,8 @@
 </form>
 
 <form action="/artists" methods="GET","POST">
-{% for events,values in allEvents %}
-<input type="submit" name={{ events }} value="get artist info"> {{ values }}
+{% for events,values in allEvents.items() %}
+<input type="submit" name= {{ events }} value="get linup"> {{ values }}
 {% endfor %}
 </form>
 
