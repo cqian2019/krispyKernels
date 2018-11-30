@@ -13,8 +13,10 @@
   <input type="submit" value="Settings">
 </form>
 
-{{info}}
-
-
+<form action="/artists" methods="GET","POST">
+{% for events,values in allEvents %}
+<input type="submit" name={{ events }} value="get artist info"> {{ values }}
+{% endfor %}
+</form>
 
 {% endblock %}

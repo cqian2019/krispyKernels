@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, session, url_for, redirect, flash, Markup
 import os, db, api
+
+from flask import Flask, render_template, request, session, url_for, redirect, flash, Markup
+
 
 app = Flask(__name__)
 
@@ -78,6 +80,7 @@ def search():
         s += api.getUrl(e) + "<br>"
         s += api.getAddress(e) + "<br><br>"
     return render_template('home.html', info = Markup(s))
+
 @app.route('/settings', methods=["GET","POST"])
 def settings():
     return render_template("settings.html")
