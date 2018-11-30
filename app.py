@@ -57,12 +57,25 @@ def auth():
         flash('Username does not exist')
         return redirect(url_for('logout'))
 
-# @app.route('/search', methods=["GET","POST"])
-# def search():
-
+@app.route('/search', methods=["GET","POST"])
+def search():
+    result = request.values.get('search')
+    print(result)
+    location = api.toGeo(result)
+    print(location)
+    events = api.getEvents(location[0],location[1])
+    s = ""
+    for e in events:
+        s += '<input type="radio" name="event" value="' + api.getId(e) + '">'
+        s += api.getName(e) + "<br>"
+        s += api.getDate(e)  + "<br>"
+        s += api.getVenue(e) + "<br>"
+        s += api.getGenre(e) + "<br>"
+        s += api.getUrl(e) + "<br>"
+        s += api.getAddress(e) + "<br><br>"
+    return render_template('home.html', info = Markup(s))
 @app.route('/settings', methods=["GET","POST"])
 def settings():
-
     return render_template("settings.html")
 
 @app.route('/saveSettings', methods=["GET","POST"])
