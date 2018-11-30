@@ -12,16 +12,20 @@ def login():
     if 'username' in session:
         location = api.toGeo(db.getLocation(session['username']))
         events = api.getEvents(location[0],location[1])
-        s = ""
+        eventList={}
         for e in events:
-            s += '<input type="radio" name="event" value="' + api.getId(e) + '">'
+            s = ""
             s += api.getName(e) + "<br>"
             s += api.getDate(e)  + "<br>"
             s += api.getVenue(e) + "<br>"
             s += api.getGenre(e) + "<br>"
             s += api.getUrl(e) + "<br>"
             s += api.getAddress(e) + "<br><br>"
-        return render_template('home.html', username=session['username'], info = Markup(s))
+
+            eventList[api.getId(e)] = Markup(s)
+
+        return render_template('home.html', username=session['username'], allEvents=eventList)
+
     else:
         return render_template('login.html')
 
