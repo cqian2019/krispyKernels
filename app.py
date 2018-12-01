@@ -72,6 +72,9 @@ def search():
         search = results[0][0]
     print(search)
     location = api.toGeo(search)
+    #List of non-working addresses
+    #2625+Pride+Avenue+Queens+NY
+    
     print(location)
     events = api.getEvents(location[0],location[1])
     s = ""
