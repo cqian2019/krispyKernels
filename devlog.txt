@@ -81,3 +81,7 @@ Settings functional, user can change password
 kendrickL, simonT -- 2018-11-29 22:30
 ==============================================================
 Made basic search function (made it auto-suggest first option, but it's not always the most relevant one)
+
+kendrickL -- 2018-12-2 17:08
+==============================================================
+added requirements.txt
