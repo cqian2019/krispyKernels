@@ -4,8 +4,19 @@ import urllib.request, json, ssl
 ctxt = ssl._create_unverified_context()
 #urlopen("url",context=ctxt) if you get ssl error
 
+def findKey(apiFile):
+    with open(apiFile) as f:
+        f.readline()
+        data = f.readline()
+    return data
+
+
+# print(findKey("ticketmaster.txt"))
+
+
 #---------------------TICKET MASTER API (Derek)-----------------------------
-tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
+# tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
+tmKey = findKey("ticketmaster.txt")
 tmId = ""
 tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&radius=50&segmentName=Music&apikey={2}"
 
@@ -161,7 +172,8 @@ def suggest(address): #returns suggestions for a mistyped address
 
 #---------------------THE AUDIO DB API (Simon)------------------------------
 
-adKey = "195003"
+# adKey = "195003"
+adKey = findKey("theaudiodb.txt")
 adUrl = ""
 
 def getInfo(artist):
@@ -222,7 +234,8 @@ def getMvs(artistId):
 
 
 #---------------------------DARK SKY API (Simon)---------------------------
-dsKey = "284833a5391e29e9498e6f1adc9c656e"
+# dsKey = "284833a5391e29e9498e6f1adc9c656e"
+dsKey = findKey("darksky.txt")
 dsUrl = ""
 
 #returns weather with provided geocode and date
