@@ -85,3 +85,16 @@ Made basic search function (made it auto-suggest first option, but it's not alwa
 kendrickL -- 2018-12-2 17:08
 ==============================================================
 added requirements.txt
+
+cherylQ -- 2018-12-3 00:51
+==============================================================
+added try except blocks, fixed minor bugs, made 'get lineup' buttons functional
+tbd: storing artists/songs, returning artists/songs (request error?), directions, front end
+
+cherylQ, derekC -- 2018-12-3 23:04
+==============================================================
+made foundation table for event info, debugging
+
+simonT -- 2018-12-3 23:00
+==============================================================
+updated README.md

@@ -4,13 +4,13 @@
 
 <form action = "/search", methods="GET","POST">
   <input type="text" id="search" name="search" placeholder="Search">
-  <button type="submit">Search</button>
+  <input type="submit" class="button" value="Search">
 </form>
 <form action="/logout">
-  <input type="submit" value="Log out">
+  <input type="submit" class="button" value="Log out">
 </form>
 <form action="/settings">
-  <input type="submit" value="Settings">
+  <input type="submit" class="button" value="Settings">
 </form>
 
 <form action="/artists" methods="GET","POST">
@@ -37,5 +37,27 @@
     </tbody>
   </table>
 </form>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th>Artist Lineup</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for a in artists %}
+        <tr>
+        <td><input type="submit" class="button" name="{{ a }}" value="{{ a }}"></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+{{ info }}
+
+{{ music }}
+{{ tests }}
+
 
 {% endblock %}
