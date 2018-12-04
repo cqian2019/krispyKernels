@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, api
 
 #==========================================================
 
@@ -54,6 +54,7 @@ def setPass(user, pw):
 def register(user,pw,home):
     db = sqlite3.connect("krispy.db")
     c = db.cursor()
+    
     command = "INSERT INTO users VALUES(?,?,?)"
     c.execute(command,(user,pw,home,))
     command = "CREATE TABLE IF NOT EXISTS {0} (date TEXT, name TEXT, location TEXT, directions TEXT, url TEXT)".format(user)

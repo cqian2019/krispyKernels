@@ -1,6 +1,8 @@
-import os, db, api
+import os
 
 from flask import Flask, render_template, request, session, url_for, redirect, flash, Markup
+
+import db, api
 
 
 app = Flask(__name__)
@@ -10,28 +12,54 @@ app.secret_key = os.urandom(32)
 @app.route('/')
 def login():
     if 'username' in session:
-        location = api.toGeo(db.getLocation(session['username']))
-        events = api.getEvents(location[0],location[1])
+        if 'location' not in session:
+            session['location'] = api.toGeo(db.getLocation(session['username']))
+
+        location = session['location']
+        try:
+            events = api.getEvents(location[0],location[1])
+        except:
+            session.pop('location')
+            flash('No events at this location, try again')
+            return redirect('/')
+
         eventList={}
+
         for e in events:
-            s = ""
-            s += api.getName(e) + "<br>"
-            s += api.getDate(e)  + "<br>"
-            s += api.getVenue(e) + "<br>"
-            s += api.getGenre(e) + "<br>"
-            s += api.getUrl(e) + "<br>"
-            s += api.getAddress(e) + "<br><br>"
+            event=[]
+            event.append(api.getName(e))
+            event.append(api.getDate(e))
+            event.append(api.getVenue(e))
+            event.append(api.getGenre(e))
+            event.append(api.getAddress(e))
+            eventList[api.getId(e)] = event
 
-            eventList[api.getId(e)] = Markup(s)
+        if 'lineup' in session:
+            lineup = session['lineup']
 
-        return render_template('home.html', username=session['username'], allEvents=eventList)
+        else:
+            lineup = api.getLineup(events[0])
+
+
+        lineupStr = ""
+        albumStr = ""
+
+        for artist in lineup:
+            lineupStr += artist
+            lineupStr += "<br>"
+
+        artistName = lineup[0].replace(" ", "+")
+        #albumStr = api.getAlbums(artistName)
+
+        return render_template('home.html', username=session['username'], allEvents=eventList, artists=lineup)
 
     else:
         return render_template('login.html')
 
 @app.route('/logout')
 def logout():
-    session.pop('username')
+    if 'username' in session:
+        session.pop('username')
     return redirect('/')
 
 @app.route('/register', methods=["POST"])
@@ -39,12 +67,21 @@ def register():
     username = request.form['username']
     password = request.form['password']
     address = request.form['address']
+    suggest = api.suggest(address)
+
+    if len(suggest) != 0:
+        address =  suggest[0][0]
+    else:
+        flash('Invalid address, try again')
+        return redirect('/')
+
     if not db.isUser(username):
         db.register(username,password,address)
-        flash('Account successfully created')
+        flash('Account successfully created! Address auto-completed as ' + address + '. Log in to update.')
     else:
         flash('Username already taken, try again')
     return redirect('/')
+
 
 @app.route('/auth', methods=["POST"])
 def auth():
@@ -71,26 +108,31 @@ def search():
     if len(results) != 0:
         search = results[0][0]
     print(search)
-    location = api.toGeo(search)
-    #List of non-working addresses
-    #2625+Pride+Avenue+Queens+NY
-    
-    print(location)
-    events = api.getEvents(location[0],location[1])
-    s = ""
-    for e in events:
-        s += '<input type="radio" name="event" value="' + api.getId(e) + '">'
-        s += api.getName(e) + "<br>"
-        s += api.getDate(e)  + "<br>"
-        s += api.getVenue(e) + "<br>"
-        s += api.getGenre(e) + "<br>"
-        s += api.getUrl(e) + "<br>"
-        s += api.getAddress(e) + "<br><br>"
-    return render_template('home.html', info = Markup(s))
+    location = []
+    try:
+        location = api.toGeo(search)
+        session['location'] = location
+    except:
+        flash('Not a valid address, try again')
+        return redirect('/')
+    return redirect('/')
+
 
 @app.route('/settings', methods=["GET","POST"])
 def settings():
     return render_template("settings.html")
+
+@app.route('/artists', methods=["GET","POST"])
+def artists():
+    eventId = list(request.values)[0]
+    try:
+        lineup = api.getLineup(api.getEvent(eventId))
+        session['lineup'] = lineup
+    except:
+        flash('sorry our api is useless and cant handle too many requests at once.')
+        redirect('/')
+    return redirect('/')
+
 
 @app.route('/saveSettings', methods=["GET","POST"])
 def saveSettings():

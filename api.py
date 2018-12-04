@@ -20,7 +20,7 @@ def getEvents(lat, long):
     events = tmData["_embedded"]["events"]
     return events #list[ {dict1}, {dict2},.... ]
 
-def singleEvent(id):
+def getEvent(id):
     newUrl = "https://app.ticketmaster.com/discovery/v2/events/{0}.json?apikey={1}".format(id, tmKey)
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     eventDic = json.loads(tmJson.read())
@@ -45,7 +45,7 @@ def getLineup(event):
     lineup = []
     for attraction in event["_embedded"]["attractions"]:
         lineup.append(attraction["name"])
-    return lineup #list[ 'artist1', 'artist2', .... ]
+    return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
 
 def getUrl(event):
     return event["url"] #str
@@ -56,15 +56,6 @@ def getAddress(event):
     return address #str
 
 events = getEvents(40.737976, -73.880127)
-
-print(getName(events[0]))
-print(getDate(events[0]))
-print(getVenue(events[0]))
-print(getGenre(events[0]))
-print(getLineup(events[0]))
-print(getUrl(events[0]))
-print(getAddress(events[0]))
-
 
 
 #---------------------PUBLIC TRANSIT API (Kendrick)-------------------------
@@ -173,11 +164,10 @@ def suggest(address): #returns suggestions for a mistyped address
 adKey = "195003"
 adUrl = ""
 
-def info(artist):
+def getInfo(artist):
     retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
     retVal += artist
-    # retVal += "coldplay"
-    readUrl = urllib.request.urlopen(retVal)
+    readUrl = urllib.request.urlopen(retVal, context = ctxt)
     hiJson = json.loads(readUrl.read())
     info = {}
     info['artist'] = hiJson['artists'][0]['strArtist']
@@ -187,37 +177,49 @@ def info(artist):
     info['id'] = hiJson['artists'][0]['idArtist']
     return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
 
-def albums(artist):#uses artist id
-    retVal = "https://theaudiodb.com/api/v1/json/195003/album.php?i="
-    retVal += artist
-    # retVal += "111239"
-    readUrl = urllib.request.urlopen(retVal)
-    print(readUrl)
-    hiJson = json.loads(readUrl.read())
-    info = {}
-    i = 0
-    while (i < len(hiJson['album'])):
-        info['name' + str(i)] = hiJson['album'][i]['strAlbum']
-        info['date' + str(i)] = hiJson['album'][i]['intYearReleased']
-        info['id' + str(i)] = hiJson['album'][i]['idAlbum']
-        i+=1
-    return albums #dict --> [{'name':'str', 'date':'str', 'id':int}, {dict1}, {dict2}]
+def getAlbums(artist):
+    name = artist.replace(" ", "+")
+    url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s="
+    url += name
+    req = urllib.request.urlopen(url, context = ctxt)
+    jdata = json.loads(req.read())
+    albumList = []
+    for a in jdata['album']:
+        album = {}
+        album['name'] = a['strAlbum']
+        album['date'] = a['intYearReleased']
+        album['id'] = a['idAlbum']
+        albumList.append(album)
+    return albumList
 
-def tracks(album):#uses album id
-    retVal = "https://theaudiodb.com/api/v1/json/195003/album.php?i="
-    retVal += artist
-    # retVal += "111239"
-    readUrl = urllib.request.urlopen(retVal)
-    print(readUrl)
-    hiJson = json.loads(readUrl.read())
-    info = {}
-    i = 0
-    while (i < len(hiJson['album'])):
-        info['name' + str(i)] = hiJson['album'][i]['strAlbum']
-        info['date' + str(i)] = hiJson['album'][i]['intYearReleased']
-        info['id' + str(i)] = hiJson['album'][i]['idAlbum']
-        i+=1
-    return tracks #list --> ['track1','track2','track3']
+def getAlbumId(artist,album):#uses album name
+    url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s={0}&a={1}".format(artist,album)
+    req = urllib.request.urlopen(url, context=ctxt)
+    jdata = json.loads(readUrl.read())
+    id = jdata['idAlbum']
+    return id
+
+def getTracks(albumId):
+    url = "https://theaudiodb.com/api/v1/json/195003/track.php?m=" + albumId
+    req = urllib.request.urlopen(url, context=ctxt)
+    jdata = json.loads(req.read())
+    tracks=[]
+    for t in jdata['track']:
+        tracks.append(t['strTrack'])
+    return tracks
+
+def getMvs(artistId):
+    url = "https://theaudiodb.com/api/v1/json/195003/mvid.php?i={0}".format(artistId)
+    req = urllib.request.urlopen(url, context=ctxt)
+    jdata = json.loads(req.read())
+    tracks = []
+    for t in jdata['mvids']:
+        mv = {}
+        mv['url'] = t['strMusicVid']
+        mv['name'] = t['strTrack']
+        tracks.append(mv)
+    return tracks
+
 
 #---------------------------DARK SKY API (Simon)---------------------------
 dsKey = "284833a5391e29e9498e6f1adc9c656e"
@@ -226,3 +228,4 @@ dsUrl = ""
 #returns weather with provided geocode and date
 def weather(date,coor):
     return weather #str
+
