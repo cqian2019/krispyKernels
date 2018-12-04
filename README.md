@@ -5,8 +5,8 @@
 A site for accessing concerts and musical events within a location range. Includes detailed information on each event, including directions to the venue, and weather on the day of. Information on artists (albums, biography) in the lineup of each event is also available. Users can register and save artists and events of their choosing.
 
 #### Instructions to Runs
-1. Clone our Repo: 
-    - To clone with SSH, enter ` git clone git@github.com:cqian2019/krispyKernels.git ` into terminal 
+1. Clone our Repo:
+    - To clone with SSH, enter ` git clone git@github.com:cqian2019/krispyKernels.git ` into terminal
 2. Virtual Environment
     - Activate your python virtual environment if you already have one. If not, create one by entering
     - ` python3 -m venv <name-of-venv> `  
@@ -15,6 +15,10 @@ A site for accessing concerts and musical events within a location range. Includ
     - ` pip install -r requirements.txt ` will install all necessary packages into your venv.
 4. Launch with ` python app.py ` in terminal.
 5. Open a new browser window and enter ` localhost:5000 ` into address bar to visit our home page.
+6. Insert API Keys into their respective files
+    - ```Insert API key for <INSERT API NAME HERE> in line below:
+         < INSERT API KEY HERE>
+    ```
 
 #### Procuring API Keys
 - Public Transit API
@@ -29,4 +33,3 @@ A site for accessing concerts and musical events within a location range. Includ
 - TheAudioDB API
     - Procure an API key [here](https://www.theaudiodb.com/api_guide.php). Click on the register button. Email registration required.
     - API is used to provide information on the artist. Their albums, bios, and tracks.
-
