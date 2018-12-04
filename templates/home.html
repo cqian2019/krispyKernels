@@ -14,9 +14,28 @@
 </form>
 
 <form action="/artists" methods="GET","POST">
-{% for events,values in allEvents.items() %}
-<input type="submit" name= {{ events }} value="get linup"> {{ values }}
-{% endfor %}
+  <table>
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Venue</th>
+        <th>Event Genre</th>
+        <th>Event Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for events, values in allEvents.items() %}
+        <tr>
+          <td><input type="submit" class = "button" name= {{ events }} value= "{{values[0]}}"></td>
+          <td>{{values[1]}}</td>
+          <td>{{values[2]}}</td>
+          <td>{{values[3]}}</td>
+          <td>{{values[4]}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </form>
 
 {% endblock %}
