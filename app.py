@@ -140,7 +140,10 @@ def saveSettings():
     confirmPassword = request.form["confirm_new_password"]
     oldPassword = request.form["old_password"]
     user = session['username']
+##    address = request.form['address']
     if db.getPass(user) == oldPassword and newPassword == confirmPassword:
+##        if '' not in address:
+##            db.setLocation(user, address)
         db.setPass(user, newPassword)
         flash("successfully updated password")
     else:

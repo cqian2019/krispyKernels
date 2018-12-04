@@ -33,6 +33,14 @@ def getLocation(user):
     db.close()
     return ret
 
+def setLocation(user, home):
+    db = sqlite3.connect("krispy.db")
+    c = db.cursor()
+    command = "UPDATE users SET address = '{0}' WHERE username = '{1}'".format(home, user)
+    c.execute(command)
+    db.commit()
+    db.close()
+    
 def getPass(user):
     db = sqlite3.connect("krispy.db")
     c = db.cursor()
@@ -87,7 +95,7 @@ def displayEvents(user):
 
 
 
-register('u','p','345 Chambers Street')
+
 
 
 #==========================================================
