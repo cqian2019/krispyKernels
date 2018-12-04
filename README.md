@@ -16,9 +16,10 @@ A site for accessing concerts and musical events within a location range. Includ
 4. Launch with ` python app.py ` in terminal.
 5. Open a new browser window and enter ` localhost:5000 ` into address bar to visit our home page.
 6. Insert API Keys into their respective files
-    - ```Insert API key for <INSERT API NAME HERE> in line below:
-         < INSERT API KEY HERE>
-    ```
+```
+Insert API key for <INSERT API NAME HERE> in line below:
+< INSERT API KEY HERE>
+```
 
 #### Procuring API Keys
 - Public Transit API
