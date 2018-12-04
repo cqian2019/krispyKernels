@@ -9,16 +9,16 @@ krispyKernels here delivering all your concert outing needs! We make calls to Ti
 
 
 #### Instructions to Runs
-1. Clone our Repo:
+1. Clone our Repo: `https://github.com/cqian2019/krispyKernels.git`
 
 2. Virtual Environment: Starting from Scratch
-  - ''' python3 -m venv venv '''  <makes virtual environment>
-  - . venv/bin/activate  <launches virtual environment>
-  - pip install ____  <Requirements: Flask, request>
+  - ` python3 -m venv venv `  <makes virtual environment>
+  - `. venv/bin/activate `  <launches virtual environment>
+  - `pip install ____ ` <Requirements: Flask, request>
 
 3. python app.py to run the Flask server
 
-4. Home page can be accessed on localhost:5000
+4. Home page can be accessed on `localhost:5000`
 
 5. As of now, all of our API keys are still in the python files so no accessing will be required.
 
