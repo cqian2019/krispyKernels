@@ -6,13 +6,27 @@ A site for accessing concerts and musical events within a location range. Includ
 
 #### Instructions to Runs
 1. Clone our Repo: 
-  - To clone with SSH, enter ` git clone git@github.com:cqian2019/krispyKernels.git ` into terminal 
+    - To clone with SSH, enter ` git clone git@github.com:cqian2019/krispyKernels.git ` into terminal 
 2. Virtual Environment
-  - Activate your python virtual environment if you already have one. If not, create one by entering
-  - ` python3 -m venv <name-of-venv> `  
-  - and enter ` . <path>/<name-of-venv>/bin/activate `  to activate
+    - Activate your python virtual environment if you already have one. If not, create one by entering
+    - ` python3 -m venv <name-of-venv> `  
+    - Enter ` . <path>/<name-of-venv>/bin/activate `  to activate.
 3. Install Dependencies
-  - ` pip install -r requirements.txt ` will install all necessary packages into your venv
-3. Launch with ` python app.py ` in terminal
-4. Open a new browser window and enter localhost:5000 into address bar to visit our home page
+    - ` pip install -r requirements.txt ` will install all necessary packages into your venv.
+4. Launch with ` python app.py ` in terminal.
+5. Open a new browser window and enter ` localhost:5000 ` into address bar to visit our home page.
+
+#### Procuring API Keys
+- Public Transit API
+    - Procure an API key [here](https://developer.here.com/documentation/transit/topics/quick-start-routing.html). Click on the "Get Started for Free button". Email registration required.
+    - API is used to provide directions using public transit only.
+- Dark Sky API
+    - Procure an API key [here](https://darksky.net/dev). Email registration required.
+    - API is used to provide information on the weather the day of an event.
+- TicketMaster API
+    - Procure an API key [here](https://developer-acct.ticketmaster.com/user/register). Email registration required.
+    - API is used to provide event information such as: location, show name, lineups, and dates.
+- TheAudioDB API
+    - Procure an API key [here](https://www.theaudiodb.com/api_guide.php). Click on the register button. Email registration required.
+    - API is used to provide information on the artist. Their albums, bios, and tracks.
 
