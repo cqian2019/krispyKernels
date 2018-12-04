@@ -154,7 +154,7 @@ def suggest(address): #returns suggestions for a mistyped address
         for string in sList:
             if 'b' not in string:
                 s += string
-        suggestions.append([s])
+        suggestions.append(s)
     #print(suggestions)
     return suggestions #list of suggestions --> ["str","str","str"]
 

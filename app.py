@@ -70,7 +70,7 @@ def register():
     suggest = api.suggest(address)
 
     if len(suggest) != 0:
-        address =  suggest[0][0]
+        address =  suggest[0]
     else:
         flash('Invalid address, try again')
         return redirect('/')
@@ -106,7 +106,7 @@ def search():
     print(search)
     results = api.suggest(search)
     if len(results) != 0:
-        search = results[0][0]
+        search = results[0]
     print(search)
     location = []
     try:
