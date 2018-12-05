@@ -4,19 +4,8 @@ import urllib.request, json, ssl
 ctxt = ssl._create_unverified_context()
 #urlopen("url",context=ctxt) if you get ssl error
 
-def findKey(apiFile):
-    with open(apiFile) as f:
-        f.readline()
-        data = f.readline()
-    return data
-
-
-# print(findKey("ticketmaster.txt"))
-
-
 #---------------------TICKET MASTER API (Derek)-----------------------------
-# tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
-tmKey = findKey("ticketmaster.txt")
+tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
 tmId = ""
 tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&radius=50&segmentName=Music&apikey={2}"
 
@@ -36,16 +25,6 @@ def getEvent(id):
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     eventDic = json.loads(tmJson.read())
     return eventDic
-
-def getEventInfo(event):
-    info = []
-    info.append(getName(event))
-    info.append(getDate(event))
-    info.append(getVenue(event))
-    info.append(getGenre(event))
-    info.append(getAddress(event))
-    info.append(getUrl(event))
-    return info
 
 def getId(event):
     return event["id"]
@@ -196,15 +175,14 @@ def suggest(address): #returns suggestions for a mistyped address
         for string in sList:
             if 'b' not in string:
                 s += string
-        suggestions.append(s)
+        suggestions.append([s])
     #print(suggestions)
     return suggestions #list of suggestions --> ["str","str","str"]
 
 
 #---------------------THE AUDIO DB API (Simon)------------------------------
 
-# adKey = "195003"
-adKey = findKey("theaudiodb.txt")
+adKey = "195003"
 adUrl = ""
 
 def getInfo(artist):
@@ -274,8 +252,7 @@ def getMvs(artistId):
 
 
 #---------------------------DARK SKY API (Simon)---------------------------
-# dsKey = "284833a5391e29e9498e6f1adc9c656e"
-dsKey = findKey("darksky.txt")
+dsKey = "284833a5391e29e9498e6f1adc9c656e"
 dsUrl = ""
 
 #returns weather with provided geocode and date
