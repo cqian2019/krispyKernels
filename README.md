@@ -15,6 +15,8 @@ A site for accessing concerts and musical events within a location range. Includ
     - ` pip install -r requirements.txt ` will install all necessary packages into your venv.
 4. Launch with ` python app.py ` in terminal.
 5. Open a new browser window and enter ` localhost:5000 ` into address bar to visit our home page.
+
+
 **6. Insert API Keys into their respective files**
 In the root of our directory there should be 4 .txt files named according to their API.
 Procure keys, paste each in their respective files as shown below:
