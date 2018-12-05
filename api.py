@@ -37,6 +37,16 @@ def getEvent(id):
     eventDic = json.loads(tmJson.read())
     return eventDic
 
+def getEventInfo(event):
+    info = []
+    info.append(getName(event))
+    info.append(getDate(event))
+    info.append(getVenue(event))
+    info.append(getGenre(event))
+    info.append(getAddress(event))
+    info.append(getUrl(event))
+    return info
+
 def getId(event):
     return event["id"]
 
@@ -241,4 +251,3 @@ dsUrl = ""
 #returns weather with provided geocode and date
 def weather(date,coor):
     return weather #str
-

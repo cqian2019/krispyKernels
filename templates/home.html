@@ -39,20 +39,30 @@
 </form>
 
 
-  <table>
-    <thead>
-      <tr>
-        <th>Artist Lineup</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for a in artists %}
+<div class="grid-x grid-margin-x">
+  <div class="cell small-4">
+    <table>
+      <thead>
         <tr>
-        <td><input type="submit" class="button" name="{{ a }}" value="{{ a }}"></td>
+          <th>Artist Lineup</th>
         </tr>
-        {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+          {% for a in artists %}
+          <tr>
+          <td><input type="submit" class="button" name="{{ a }}" value="{{ a }}"></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="cell auto">
+    {{eventInfo[0]}}<br>
+    At {{eventInfo[2]}}, on {{eventInfo[1]}}. <br>
+    <a class="button success" href="{{eventInfo[5]}}">Get more info and <br> buy tickets here!</a>
+  </div>
+</div>
+
 
 {{ info }}
 

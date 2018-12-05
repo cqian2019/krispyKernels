@@ -26,19 +26,16 @@ def login():
         eventList={}
 
         for e in events:
-            event=[]
-            event.append(api.getName(e))
-            event.append(api.getDate(e))
-            event.append(api.getVenue(e))
-            event.append(api.getGenre(e))
-            event.append(api.getAddress(e))
+            event=api.getEventInfo(e)
             eventList[api.getId(e)] = event
 
         if 'lineup' in session:
             lineup = session['lineup']
+            eventInfo = session['eventInfo']
 
         else:
             lineup = api.getLineup(events[0])
+            eventInfo = api.getEventInfo(events[0])
 
 
         lineupStr = ""
@@ -51,7 +48,7 @@ def login():
         artistName = lineup[0].replace(" ", "+")
         #albumStr = api.getAlbums(artistName)
 
-        return render_template('home.html', username=session['username'], allEvents=eventList, artists=lineup)
+        return render_template('home.html', username=session['username'], allEvents=eventList, artists=lineup, eventInfo=eventInfo)
 
     else:
         return render_template('login.html')
@@ -128,6 +125,8 @@ def artists():
     try:
         lineup = api.getLineup(api.getEvent(eventId))
         session['lineup'] = lineup
+        eventInfo = api.getEventInfo(api.getEvent(eventId))
+        session['eventInfo'] = eventInfo
     except:
         flash('sorry our api is useless and cant handle too many requests at once.')
         redirect('/')
