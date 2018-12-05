@@ -2,12 +2,13 @@ import sqlite3, api
 
 #==========================================================
 
-db = sqlite3.connect("krispy.db")
-c = db.cursor()
-command = "CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, address TEXT)"
-c.execute(command)
-db.commit()
-db.close()
+def init():
+    db = sqlite3.connect("krispy.db")
+    c = db.cursor()
+    command = "CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, address TEXT)"
+    c.execute(command)
+    db.commit()
+    db.close()
 
 #==========================================================
 
@@ -54,7 +55,7 @@ def setPass(user, pw):
 def register(user,pw,home):
     db = sqlite3.connect("krispy.db")
     c = db.cursor()
-    
+
     command = "INSERT INTO users VALUES(?,?,?)"
     c.execute(command,(user,pw,home,))
     command = "CREATE TABLE IF NOT EXISTS {0} (date TEXT, name TEXT, location TEXT, directions TEXT, url TEXT)".format(user)
@@ -85,9 +86,6 @@ def displayEvents(user):
     db.commit()
     db.close()
 
-
-
-register('u','p','345 Chambers Street')
 
 
 #==========================================================

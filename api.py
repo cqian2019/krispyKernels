@@ -33,30 +33,45 @@ def getName(event):
     return event["name"] #str
 
 def getDate(event):
-    return event["dates"]["start"]["localDate"] #str
+    try:
+        return event["dates"]["start"]["localDate"] #str
+    except:
+        return "Date not available"
 
 def getVenue(event):
-    return event["_embedded"]["venues"][0]["name"] #str
+    try:
+        return event["_embedded"]["venues"][0]["name"] #str
+    except:
+        return "Venue not available"
 
 def getGenre(event):
-    return event["classifications"][0]["genre"]["name"] #str
+    try:
+        return event["classifications"][0]["genre"]["name"] #str
+    except:
+        return "Genre not specified"
 
 def getLineup(event):
     lineup = []
-    for attraction in event["_embedded"]["attractions"]:
-        lineup.append(attraction["name"])
-    return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
+    try:
+        for attraction in event["_embedded"]["attractions"]:
+            lineup.append(attraction["name"])
+        return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
+    except:
+        return "No artists available"
 
 def getUrl(event):
-    return event["url"] #str
+    try:
+        return event["url"] #str
+    except:
+        return "URL not available"
 
 def getAddress(event):
-    info = event["_embedded"]["venues"][0]
-    address = info["address"]["line1"] + ", " + info["city"]["name"] + ", " + info["state"]["stateCode"] + ", " + info["postalCode"]
-    return address #str
-
-events = getEvents(40.737976, -73.880127)
-
+    try:
+        info = event["_embedded"]["venues"][0]
+        address = info["address"]["line1"] + ", " + info["city"]["name"] + ", " + info["state"]["stateCode"] + ", " + info["postalCode"]
+        return address #str
+    except:
+        return "Address not available"
 
 #---------------------PUBLIC TRANSIT API (Kendrick)-------------------------
 
@@ -68,9 +83,12 @@ def publicDir(start,end): #via public transit (fastest)
     ptUrl = "https://transit.api.here.com/v3/route.json?mode=fastest;publicTransport&combineChange=true&time=2018-11-23T12%1A-00%1A30&app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew"
     ptUrl += "&dep=" + start + "&arr=" + end
     #print(ptUrl)
-    request=urllib.request.urlopen(ptUrl, context = ctxt)
-    raw=request.read()
-    jdict=json.loads(raw)
+    try:
+        request=urllib.request.urlopen(ptUrl, context = ctxt)
+        raw=request.read()
+        jdict=json.loads(raw)
+    except:
+        return "No directions available"
     #print(jdict)
     route = {}
     directions = ""
@@ -106,9 +124,12 @@ def publicDir(start,end): #via public transit (fastest)
 def drivingDir(start,end): #via driving (fastest)
     ptUrl = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew&mode=fastest;car"
     ptUrl += "&waypoint0=geo!" + start + "&waypoint1=geo!" + end
-    request=urllib.request.urlopen(ptUrl, context = ctxt)
-    raw=request.read()
-    jdict=json.loads(raw)
+    try:
+        request=urllib.request.urlopen(ptUrl, context = ctxt)
+        raw=request.read()
+        jdict=json.loads(raw)
+    except:
+        return "No directions available"
     route = {}
     directions = ""
     for key in jdict['response']['route'][0]['leg'][0]['maneuver']:
@@ -170,13 +191,16 @@ def getInfo(artist):
     readUrl = urllib.request.urlopen(retVal, context = ctxt)
     hiJson = json.loads(readUrl.read())
     info = {}
-    info['artist'] = hiJson['artists'][0]['strArtist']
-    info['bio'] = hiJson['artists'][0]['strBiographyEN']
-    info['style'] = hiJson['artists'][0]['strStyle']
-    info['genre'] = hiJson['artists'][0]['strGenre']
-    info['id'] = hiJson['artists'][0]['idArtist']
-    return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
-
+    try:
+        info['bio'] = hiJson['artists'][0]['strBiographyEN']
+        info['style'] = hiJson['artists'][0]['strStyle']
+        info['genre'] = hiJson['artists'][0]['strGenre']
+        info['id'] = hiJson['artists'][0]['idArtist']
+        return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
+    except:
+        info['bio'] = "Artist information not found."
+        return info
+        
 def getAlbums(artist):
     name = artist.replace(" ", "+")
     url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s="
@@ -184,13 +208,16 @@ def getAlbums(artist):
     req = urllib.request.urlopen(url, context = ctxt)
     jdata = json.loads(req.read())
     albumList = []
-    for a in jdata['album']:
-        album = {}
-        album['name'] = a['strAlbum']
+    try:
+        for a in jdata['album']:
+            album = {}
+            album['name'] = a['strAlbum']
         album['date'] = a['intYearReleased']
         album['id'] = a['idAlbum']
         albumList.append(album)
-    return albumList
+        return albumList
+    except:
+        return [""]
 
 def getAlbumId(artist,album):#uses album name
     url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s={0}&a={1}".format(artist,album)
@@ -204,9 +231,12 @@ def getTracks(albumId):
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(req.read())
     tracks=[]
-    for t in jdata['track']:
-        tracks.append(t['strTrack'])
-    return tracks
+    try:
+        for t in jdata['track']:
+            tracks.append(t['strTrack'])
+        return tracks
+    except:
+        return [""]
 
 def getMvs(artistId):
     url = "https://theaudiodb.com/api/v1/json/195003/mvid.php?i={0}".format(artistId)
@@ -228,4 +258,3 @@ dsUrl = ""
 #returns weather with provided geocode and date
 def weather(date,coor):
     return weather #str
-
