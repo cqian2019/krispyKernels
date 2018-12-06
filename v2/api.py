@@ -7,7 +7,7 @@ ctxt = ssl._create_unverified_context()
 def findKey(apiFile):
     with open(apiFile) as f:
         f.readline()
-        data = f.readline()
+        data = f.readline().strip("\n")
     return data
 
 
@@ -190,11 +190,12 @@ def suggest(address): #returns suggestions for a mistyped address
 
 # adKey = "195003"
 adKey = findKey("theaudiodb.txt")
-adUrl = ""
 
 def getInfo(artist):
-    retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
+    # retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
+    retVal = "http://www.theaudiodb.com/api/v1/json/{0}/search.php?s=".format(adKey)
     retVal += artist
+    # print(retVal)
     readUrl = urllib.request.urlopen(retVal, context = ctxt)
     hiJson = json.loads(readUrl.read())
     info = {}
@@ -203,11 +204,13 @@ def getInfo(artist):
     info['style'] = hiJson['artists'][0]['strStyle']
     info['genre'] = hiJson['artists'][0]['strGenre']
     info['id'] = hiJson['artists'][0]['idArtist']
-    return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
+    return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int
+
+# getInfo("a")
 
 def getAlbums(artist):
     name = artist.replace(" ", "+")
-    url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s="
+    url = "https://theaudiodb.com/api/v1/json/{0}/searchalbum.php?s=".format(adKey)
     url += name
     req = urllib.request.urlopen(url, context = ctxt)
     jdata = json.loads(req.read())
@@ -221,14 +224,15 @@ def getAlbums(artist):
     return albumList
 
 def getAlbumId(artist,album):#uses album name
-    url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s={0}&a={1}".format(artist,album)
+    url = "https://theaudiodb.com/api/v1/json/{0}/searchalbum.php?s={1}&a={2}".format(adKey,artist,album)
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(readUrl.read())
     id = jdata['idAlbum']
     return id
 
 def getTracks(albumId):
-    url = "https://theaudiodb.com/api/v1/json/195003/track.php?m=" + albumId
+    url = "https://theaudiodb.com/api/v1/json/{0}/track.php?m=".format(adKey)
+    url += albumId
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(req.read())
     tracks=[]
@@ -237,7 +241,7 @@ def getTracks(albumId):
     return tracks
 
 def getMvs(artistId):
-    url = "https://theaudiodb.com/api/v1/json/195003/mvid.php?i={0}".format(artistId)
+    url = "https://theaudiodb.com/api/v1/json/{0}/mvid.php?i={1}".format(adKey,artistId)
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(req.read())
     tracks = []
@@ -256,4 +260,15 @@ dsUrl = ""
 
 #returns weather with provided geocode and date
 def weather(date,coor):
-    return weather #str
+    retstr= "https://api.darksky.net/forecast/{0}/{1},{2}".format(dsKey, coor[0], coor[1])
+    print(retstr)
+    req = urllib.request.urlopen(retstr, context=ctxt)
+    jdata = json.loads(req.read())
+    retdata = {}
+    retdata['temperature'] = jdata['currently']['temperature']
+    retdata['Precipitation chance (out of 1):'] = jdata['currently']['precipProbability']
+    if(jdata['currently']['precipProbability'] != 0):
+        retdata['Precipitation Type:'] = jdata['currently']['precipType']
+    return retdata #str
+
+print(weather(0, (42.3601, -71.0589)))
