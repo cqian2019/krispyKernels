@@ -129,17 +129,21 @@ def settings():
 @app.route('/artists', methods=["GET","POST"])
 def artists():
     eventId = list(request.values)[0]
+
     try:
         lineup = api.getLineup(api.getEvent(eventId))
         session['lineup'] = lineup
+
         eventInfo = api.getEventInfo(api.getEvent(eventId))
-
-        currentGeo = toGeo(db.getLocation(session['username']))
-        geoStr = currentGeo[0] + ',' + currentGeo[1]
-        directions = api.drivingDir(geoStr, api.getEventLocation(api.getEvent(eventId)))
-        eventInfo.append(directions['directions'])
-
         session['eventInfo'] = eventInfo
+
+        print("=======================================================================================================")
+
+        currentGeo = api.toGeo(db.getLocation(session['username']))
+        geoStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
+        directions = api.drivingDir(geoStr, api.getEventLocation(api.getEvent(eventId)))
+        session['eventInfo'].append(directions['directions'])
+        print(session['eventInfo'])
     except:
         flash('sorry our api is useless and cant handle too many requests at once.')
         redirect('/')
