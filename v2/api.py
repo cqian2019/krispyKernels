@@ -51,14 +51,7 @@ def getEventInfo(event):
     info.append(getGenre(event))
     info.append(getAddress(event))
     info.append(getUrl(event))
-    try:
-        info.append(getDesc(event))
-    except:
-        info.append('no description')
     return info
-
-def getDesc(event):
-    return event["info"]
 
 def getId(event):
     return event["id"]
