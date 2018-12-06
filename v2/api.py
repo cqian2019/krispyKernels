@@ -40,7 +40,7 @@ def getEvent(id):
     return eventDic
 
 def getEventLocation(event):
-    location = event['_embedded']['venues'][0]['location']['longitude'] + ',' + event['_embedded']['venues'][0]['location']['longitude']
+    location = event['_embedded']['venues'][0]['location']['latitude'] + ',' + event['_embedded']['venues'][0]['location']['longitude']
     return location
 
 def getEventInfo(event):

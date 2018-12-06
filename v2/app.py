@@ -39,6 +39,8 @@ def login():
 
             currentGeo = api.toGeo(db.getLocation(session['username']))
             geoStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
+            # print(geoStr)
+            # print(api.getEventLocation(events[0]))
             directions = api.drivingDir(geoStr, api.getEventLocation(events[0]))
             eventInfo.append(directions['directions'])
 
