@@ -186,17 +186,18 @@ adKey = "195003"
 adUrl = ""
 
 def getInfo(artist):
-    retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
-    retVal += artist
-    readUrl = urllib.request.urlopen(retVal, context = ctxt)
-    hiJson = json.loads(readUrl.read())
+    name = artist.replace(" ", "+")
+    url = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
+    url += name
+    req = urllib.request.urlopen(url, context = ctxt)
+    jdata = json.loads(req.read())
     info = {}
+    bio = ""
+    i = 0
     try:
-        info['bio'] = hiJson['artists'][0]['strBiographyEN']
-        info['style'] = hiJson['artists'][0]['strStyle']
-        info['genre'] = hiJson['artists'][0]['strGenre']
-        info['id'] = hiJson['artists'][0]['idArtist']
-        return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int }
+        info['bio'] = jdata['artists'][0]['strBiographyEN']
+        info['id'] = jdata['artists'][0]['idArtist']
+        return info
     except:
         info['bio'] = "Artist information not found."
         return info
@@ -237,18 +238,6 @@ def getTracks(albumId):
         return tracks
     except:
         return [""]
-
-def getMvs(artistId):
-    url = "https://theaudiodb.com/api/v1/json/195003/mvid.php?i={0}".format(artistId)
-    req = urllib.request.urlopen(url, context=ctxt)
-    jdata = json.loads(req.read())
-    tracks = []
-    for t in jdata['mvids']:
-        mv = {}
-        mv['url'] = t['strMusicVid']
-        mv['name'] = t['strTrack']
-        tracks.append(mv)
-    return tracks
 
 
 #---------------------------DARK SKY API (Simon)---------------------------

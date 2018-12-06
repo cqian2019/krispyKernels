@@ -11,6 +11,7 @@ app.secret_key = os.urandom(32)
 
 @app.route('/')
 def login():
+    template = "home.html"
     if 'username' in session: #checks if logged in
         if 'location' not in session: #checks if user searched
             session['location'] = api.toGeo(db.getLocation(session['username']))
@@ -29,7 +30,6 @@ def login():
             event=[]
             event.append(api.getName(e))
             event.append(api.getDate(e))
-            event.append(api.getVenue(e))
             event.append(api.getGenre(e))
             event.append(api.getAddress(e))
             eventList[api.getId(e)] = event
@@ -40,15 +40,15 @@ def login():
             lineup = api.getLineup(events[0])#sets lineup to lineup of 1st event if none selecte
 
         if 'artist' in session:#checks if user selected an artist
-            artist = session['artist'].replace(" ", "+")
+            artist = session['artist']
         else:
-            artist = lineup[0].replace(" ", "+")#sets artist to first on lineup if none selected
+            artist = lineup[0]#sets artist to first on lineup if none selected
 
 
         albums = api.getAlbums(artist)
-        info = api.getInfo(artist)
+        info = api.getInfo(artist)['bio']
 
-        return render_template('home.html', username=session['username'], allEvents=eventList, artists=lineup, allAlbums=albums, artistInfo=info)
+        return render_template(template, username=session['username'], allEvents=eventList, artists=lineup, allAlbums=albums, artistBio=info, artistName= artist)
 
     else:
         return render_template('login.html')
