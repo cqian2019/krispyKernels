@@ -1,0 +1,100 @@
+Krispy Kernels
+Cheryl Qian
+Derek Chan
+Kendrick Liang
+Simon Tsui
+---------------------
+ArRESTed Development
+
+______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
+==============================================================
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+cherylQ, derekC, simonT, kendrickL -- 2018-11-19 13:50
+==============================================================
+Came to consensus about sequence/structrure of API usage. Decided to use Ticketmaster to find concerts, whose songs are provided by an Audio DB. Also agreed to use foundation for framework.
+
+cherylQ, derekC, simonT -- 2018-11-19 - 14:02
+==============================================================
+Added to design doc. Contributions include list of program components, such as the APIs used, the db, and the framework front end. Also made breakdown of tasks.
+
+derekC -- 2018-11-19 - 14:05
+==============================================================
+Offered to do component map.
+
+simonT -- 2018-11-19 - 14:05
+==============================================================
+Going to do site map.
+
+derekC -- 2018-11-20 - 13:37
+==============================================================
+Showed group hand-drawn component map. Currently working on computer-drawn version.
+
+simonT -- 2018-11-20 13:40
+==============================================================
+Added to design doc an explanation of the flask app and how all of the components work together. Also added more tasks to breakdown of tasks.
+
+kendrickL -- 2018-11-20 14:00
+==============================================================
+Added a table to database schema for login information.
+
+cherylQ -- 2018-11-20 14:04
+==============================================================
+Added to site map.
+
+cherylQ, kendrickL -- 2018-11-20 22:45
+==============================================================
+Created a functioning login page with db to store username and password, finished site map and design doc.
+
+cherylQ -- 2018-11-21 23:37
+==============================================================
+Created a template for api.py, skeleton with methods to return all data needed
+from APIs, assigned APIs to each team member
+
+derekC -- 2018-11-23 23:09
+==============================================================
+Added all the functions to return the data needed for assigned API (TicketMaster API)
+
+kendrickL -- 2018-11-24 00:38
+==============================================================
+Added all the functions to return the data needed for assigned API (Public Transit API)
+
+cherylQ -- 2018-11-26 03:02
+==============================================================
+Updated design doc (site map, components, database schema)
+
+cherylQ -- 2018-11-27 01:29
+==============================================================
+Added functioning register, home displays events near user's default address
+
+cherylQ, derekC -- 2018-11-28 14:05
+==============================================================
+Settings functional, user can change password
+
+kendrickL, simonT -- 2018-11-29 22:30
+==============================================================
+Made basic search function (made it auto-suggest first option, but it's not always the most relevant one)
+
+kendrickL -- 2018-12-2 17:08
+==============================================================
+added requirements.txt
+
+cherylQ -- 2018-12-3 00:51
+==============================================================
+added try except blocks, fixed minor bugs, made 'get lineup' buttons functional
+tbd: storing artists/songs, returning artists/songs (request error?), directions, front end
+
+cherylQ, derekC -- 2018-12-3 23:04
+==============================================================
+made foundation table for event info, debugging
+
+simonT -- 2018-12-3 23:00
+==============================================================
+updated README.md

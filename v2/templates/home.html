@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action = "/search", methods="GET","POST">
+  <input type="text" id="search" name="search" placeholder="Search">
+  <input type="submit" class="button" value="Search">
+</form>
+<form action="/logout">
+  <input type="submit" class="button" value="Log out">
+</form>
+<form action="/settings">
+  <input type="submit" class="button" value="Settings">
+</form>
+
+<form action="/artists" methods="GET","POST">
+  <table>
+    <thead>
+      <tr>
+        <th>Event Name</th>
+        <th>Event Date</th>
+        <th>Event Venue</th>
+        <th>Event Genre</th>
+        <th>Event Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for events, values in allEvents.items() %}
+        <tr>
+          <td><input type="submit" class = "button" name= {{ events }} value= "{{values[0]}}"></td>
+          <td>{{values[1]}}</td>
+          <td>{{values[2]}}</td>
+          <td>{{values[3]}}</td>
+          <td>{{values[4]}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
+
+
+<div class="grid-x grid-margin-x">
+  <div class="cell small-4">
+    <table>
+      <thead>
+        <tr>
+          <th>Artist Lineup</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for a in artists %}
+          <tr>
+          <td><input type="submit" class="button" name="{{ a }}" value="{{ a }}"></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="cell auto">
+    {{eventInfo[0]}}<br>
+    {{eventInfo[6]}}<br>
+    At {{eventInfo[2]}}, on {{eventInfo[1]}}. <br>
+    <a class="button success" href="{{eventInfo[5]}}">Get more info and <br> buy tickets here!</a>
+  </div>
+</div>
+
+
+{{ info }}
+
+{{ music }}
+{{ tests }}
+
+
+{% endblock %}
