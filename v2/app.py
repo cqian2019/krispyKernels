@@ -73,6 +73,10 @@ def login():
 def logout():
     if 'username' in session:
         session.pop('username')
+    if 'lineup' in session:
+        session.pop('eventInfo')
+        session.pop('lineup')
+
     return redirect('/')
 
 @app.route('/register', methods=["POST"])
@@ -149,21 +153,25 @@ def artists():
         print("=======================================================================================================")
 
         currentGeo = api.toGeo(db.getLocation(session['username']))
-        # print(1)
+        print(1)
         startStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
-        # print(2)
+        print(2)
         event = api.getEvent(eventId)
-        # print(3)
+        print(3)
         endStr = api.getEventLocation(event)
-        # print(endStr)
+        print(endStr)
         directions = api.drivingDir(startStr, endStr)
-        # print(4)
+        print(4)
         session['eventInfo'].append(directions['directions'])
         print(session['eventInfo'])
         date = session['eventInfo'][1]
+        print(5)
         weather = api.weather(date,endStr)
+        print(6)
         weatherInfo = "The weather on that day will be {0} degrees Fahrenheit and has a {1}% chance of precipitation".format(weather['temperature'], weather['Precipitation chance (out of 1):']*100)
+        print(7)
         session['eventInfo'].append(weatherInfo)
+        print(8)
 
     except:
         flash('sorry our api is useless and cant handle too many requests at once.')
