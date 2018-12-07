@@ -38,11 +38,20 @@ def login():
             eventInfo = api.getEventInfo(events[0])
 
             currentGeo = api.toGeo(db.getLocation(session['username']))
-            geoStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
-            # print(geoStr)
-            # print(api.getEventLocation(events[0]))
-            directions = api.drivingDir(geoStr, api.getEventLocation(events[0]))
+            # print(1)
+            startStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
+            # print(2)
+            event = events[0]
+            # print(3)
+            endStr = api.getEventLocation(event)
+            # print(endStr)
+            directions = api.drivingDir(startStr, endStr)
+            # print(4)
             eventInfo.append(directions['directions'])
+            date = eventInfo[1]
+            weather = api.weather(date,endStr)
+            weatherInfo = "The weather on that day will be {0} degrees Fahrenheit and has a {1}% chance of precipitation".format(weather['temperature'], weather['Precipitation chance (out of 1):']*100)
+            eventInfo.append(weatherInfo)
 
 
         lineupStr = ""
@@ -140,10 +149,22 @@ def artists():
         print("=======================================================================================================")
 
         currentGeo = api.toGeo(db.getLocation(session['username']))
-        geoStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
-        directions = api.drivingDir(geoStr, api.getEventLocation(api.getEvent(eventId)))
+        # print(1)
+        startStr = str(currentGeo[0]) + ',' + str(currentGeo[1])
+        # print(2)
+        event = api.getEvent(eventId)
+        # print(3)
+        endStr = api.getEventLocation(event)
+        # print(endStr)
+        directions = api.drivingDir(startStr, endStr)
+        # print(4)
         session['eventInfo'].append(directions['directions'])
         print(session['eventInfo'])
+        date = session['eventInfo'][1]
+        weather = api.weather(date,endStr)
+        weatherInfo = "The weather on that day will be {0} degrees Fahrenheit and has a {1}% chance of precipitation".format(weather['temperature'], weather['Precipitation chance (out of 1):']*100)
+        session['eventInfo'].append(weatherInfo)
+
     except:
         flash('sorry our api is useless and cant handle too many requests at once.')
         redirect('/')

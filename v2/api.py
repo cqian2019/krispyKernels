@@ -259,8 +259,8 @@ dsKey = findKey("darksky.txt")
 dsUrl = ""
 
 #returns weather with provided geocode and date
-def weather(date,coor):
-    retstr= "https://api.darksky.net/forecast/{0}/{1},{2}".format(dsKey, coor[0], coor[1])
+def weather(date,latlong):
+    retstr= "https://api.darksky.net/forecast/{0}/{1}".format(dsKey, latlong)
     print(retstr)
     req = urllib.request.urlopen(retstr, context=ctxt)
     jdata = json.loads(req.read())
@@ -271,4 +271,4 @@ def weather(date,coor):
         retdata['Precipitation Type:'] = jdata['currently']['precipType']
     return retdata #str
 
-print(weather(0, (42.3601, -71.0589)))
+print(weather(0,'42.3601,-71.0589'))
