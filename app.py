@@ -57,7 +57,8 @@ def home():
 @app.route('/logout')
 def logout():
     if 'username' in session:
-        session.clear()
+        for each in session:
+            session.pop(each)
     return redirect('/')
 
 @app.route('/register', methods=["POST"])
@@ -73,8 +74,7 @@ def register():
         return redirect('/')
     try:
         suggest = api.suggest(address) #list of suggestions based on user input
-        if len(suggest) != 0:
-            address =  suggest[0]#sets address to first in suggestions
+        address =  suggest[0]#sets address to first in suggestions
     except:
         flash('Invalid location, try again.')
         return redirect('/')
@@ -92,10 +92,10 @@ def auth():
     username = request.form['username']
     password = request.form['password']
 
-    session['username'] = username
 
     if db.isUser(username):
         if db.getPass(username) == password:
+            session['username'] = username
             return redirect('/')
         else:
             flash('Wrong password, try again')
