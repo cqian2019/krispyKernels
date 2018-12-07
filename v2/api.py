@@ -62,6 +62,9 @@ def getName(event):
 def getDate(event):
     return event["dates"]["start"]["localDate"] #str
 
+def getDateTime(event):
+    return event["dates"]["start"]["dateTime"] #str
+
 def getVenue(event):
     return event["_embedded"]["venues"][0]["name"] #str
 
@@ -260,7 +263,7 @@ dsUrl = ""
 
 #returns weather with provided geocode and date
 def weather(date,latlong):
-    retstr= "https://api.darksky.net/forecast/{0}/{1}".format(dsKey, latlong)
+    retstr= "https://api.darksky.net/forecast/{0}/{1},{2}".format(dsKey, latlong, date)
     print(retstr)
     req = urllib.request.urlopen(retstr, context=ctxt)
     jdata = json.loads(req.read())
