@@ -26,24 +26,24 @@ tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&r
 
 # https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew&mode=fastest;car&waypoint0=geo!-74.013908,40.717892&waypoint1=geo!-73.855571,40.751935
 
-def getEvents(lat, long):
+def getEvents(lat, long): #returns a list of events given a latitude and a longitude
     newUrl = tmUrl.format(lat, long, tmKey)
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     tmData = json.loads(tmJson.read())
     events = tmData["_embedded"]["events"]
     return events #list[ {dict1}, {dict2},.... ]
 
-def getEvent(id):
+def getEvent(id): #returns the event given its event id
     newUrl = "https://app.ticketmaster.com/discovery/v2/events/{0}.json?apikey={1}".format(id, tmKey)
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     eventDic = json.loads(tmJson.read())
-    return eventDic
+    return eventDic #dictionary
 
-def getEventLocation(event):
+def getEventLocation(event): #gets the longitude and latitude of an event
     location = event['_embedded']['venues'][0]['location']['latitude'] + ',' + event['_embedded']['venues'][0]['location']['longitude']
-    return location
+    return location #str
 
-def getEventInfo(event):
+def getEventInfo(event): #returns a bunch of info about an event
     info = []
     info.append(getName(event))
     info.append(getDate(event))
@@ -51,41 +51,41 @@ def getEventInfo(event):
     info.append(getGenre(event))
     info.append(getAddress(event))
     info.append(getUrl(event))
-    return info
+    return info #list of strings
 
-def getId(event):
-    return event["id"]
+def getId(event): #returns the event id
+    return event["id"] #str
 
-def getName(event):
+def getName(event): #returns the event name
     return event["name"] #str
 
-def getDate(event):
+def getDate(event): #returns the date of the event
     return event["dates"]["start"]["localDate"] #str
 
-def getDateTime(event):
+def getDateTime(event): #returns the UNIX time and date of the event
     return event["dates"]["start"]["dateTime"] #str
 
-def getVenue(event):
+def getVenue(event): #returns the name of the venue
     return event["_embedded"]["venues"][0]["name"] #str
 
-def getGenre(event):
+def getGenre(event): #returns the genre of the event
     return event["classifications"][0]["genre"]["name"] #str
 
-def getLineup(event):
+def getLineup(event): #returns the lineup of the event
     lineup = []
     for attraction in event["_embedded"]["attractions"]:
         lineup.append(attraction["name"])
     return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
 
-def getUrl(event):
+def getUrl(event): #returns the ticketmaster url of the event
     return event["url"] #str
 
-def getAddress(event):
+def getAddress(event): #returns the address of the event.
     info = event["_embedded"]["venues"][0]
     address = info["address"]["line1"] + ", " + info["city"]["name"] + ", " + info["state"]["stateCode"] + ", " + info["postalCode"]
     return address #str
 
-events = getEvents(40.737976, -73.880127)
+# events = getEvents(40.737976, -73.880127)
 
 
 #---------------------PUBLIC TRANSIT API (Kendrick)-------------------------

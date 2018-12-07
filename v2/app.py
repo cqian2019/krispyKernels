@@ -17,7 +17,7 @@ def login():
 
         location = session['location']
         try:
-            events = api.getEvents(location[0],location[1])
+            events = api.getEvents(location[0],location[1]) #retunrs a list of evemts near the given lat and long
         except:
             session.pop('location')
             flash('No events at this location, try again')
@@ -27,14 +27,14 @@ def login():
 
         for e in events:
             event=api.getEventInfo(e)
-            eventList[api.getId(e)] = event
+            eventList[api.getId(e)] = event #put events and event info into a dict with the event id as the key
 
         if 'lineup' in session:
-            lineup = session['lineup']
+            lineup = session['lineup'] #description and linup of the event from clicking an event
             eventInfo = session['eventInfo']
 
         else:
-            lineup = api.getLineup(events[0])
+            lineup = api.getLineup(events[0]) #starting description and lineup of the top event
             eventInfo = api.getEventInfo(events[0])
 
             currentGeo = api.toGeo(db.getLocation(session['username']))
@@ -72,7 +72,7 @@ def login():
 @app.route('/logout')
 def logout():
     if 'username' in session:
-        session.pop('username')
+        session.pop('username') #remove da cookies
     if 'lineup' in session:
         session.pop('eventInfo')
         session.pop('lineup')
@@ -144,10 +144,10 @@ def artists():
     eventId = list(request.values)[0]
 
     try:
-        lineup = api.getLineup(api.getEvent(eventId))
+        lineup = api.getLineup(api.getEvent(eventId)) # to get the lineup and put it in a cookie
         session['lineup'] = lineup
 
-        eventInfo = api.getEventInfo(api.getEvent(eventId))
+        eventInfo = api.getEventInfo(api.getEvent(eventId)) #to put all the info needed into a cookie
         session['eventInfo'] = eventInfo
 
         print("=======================================================================================================")
@@ -164,7 +164,7 @@ def artists():
         # print(4)
         session['eventInfo'].append(directions['directions'])
         print(session['eventInfo'])
-        date = api.getDateTime(event) 
+        date = api.getDateTime(event)
         # print(5)
         weather = api.weather(date,endStr)
         # print(6)
