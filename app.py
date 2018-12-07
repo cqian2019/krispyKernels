@@ -129,8 +129,9 @@ def search():
 
 @app.route('/settings', methods=["GET","POST"])
 def settings():
-    return render_template("settings.html")
-
+    if 'username' in session:
+        return render_template("settings.html")
+    return redirect('/')
 @app.route('/event', methods=["GET","POST"])
 def event():
     eventId = list(request.values)[0]
