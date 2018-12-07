@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Settings {% endblock %}
+
+{% block content %}
+
+{% with msgs = get_flashed_messages() %}
+{% for each in msgs %}
+<p style="color:red; text-indent:50px">{{each}}</p>
+{% endfor %}
+{% endwith %}
+
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="cell medium-5 medium-y-block-cell">
+      <h3>Change Password</h3>
+      <div class="callout">
+      <form action = "/updatepass", method="POST">
+        New Password:  <input type="password" name="new_password">
+        <br>
+        Confirm Password:  <input type="password" name="confirm_new_password">
+        <br>
+  Enter Old Password: <input type="password" name="old_password">
+        <br>
+        <input type="submit" value="Submit Changes">
+      </form>
+      </div>
+    </div>
+      <div class="cell medium-2 medium-y-block-cell">
+      </div>
+      <div class="cell medium-5 medium-y-block-cell">
+      <h3>Update Default Location</h3>
+      <div class="callout">
+      <form action = "/updateaddress", method="POST">
+        New Location:  <input type="text" name="new_address">
+        <br>
+        <input type="submit" value="Save Changes">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

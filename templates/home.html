@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <li><a href="/"><b>Krispy Tickets</b></a></li>
+  </div>
+  <div class="top-bar-right">
+    <ul class="menu">
+      <li><a href="/settings"><b>{{username}}</b></a></li>
+      <li><a href="/saved">Saved</a></li>
+      <li><a href="/logout" class="button">Logout</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<form action = "/search", methods="GET","POST">
+  <br>
+  <br>
+  <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-6 medium-cell-block-y">
+        <input type="text" id="search" name="search" placeholder="Search">
+      </div>
+      <div class="cell medium-6 medium-cell-block-y">
+        <input type="submit" class="button" value="Search">
+      </div>
+      {% with msgs = get_flashed_messages() %}
+      {% for each in msgs %}<p style="color:red">{{each}}</p>
+      {% endfor %}
+      {% endwith %}
+    </div>
+  </div>
+</form>
+
+
+
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="cell">
+      <br>
+      <h4 id="top">Showing results near <b>{{ searchAddress }}</b>...</h4>
+      <hr>
+      <br>
+      <form action="/event" methods="GET","POST">
+        <table>
+          <thead>
+            <tr>
+              <th>Event Name</th>
+              <th>Event Date</th>
+              <th>Event Genre</th>
+              <th>Event Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for events, values in allEvents.items() %}
+            <tr>
+              <td><input type="submit" class = "clear button" name= {{ events }} value= "{{values[0]}}"></td>
+              <td>{{values[1]}}</td>
+              <td>{{values[2]}}</td>
+              <td>{{values[3]}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+      <br>
+      <br>
+      <br>
+    </div>
+
+    <h2>Artist Lineup for <b>{{ date }}</b></h2>
+    <div class="cell">
+      <hr>
+      <form action="/artist" methods="GET","POST">
+          {% for a in artists %}
+          <input type="submit" class="hollow button" name="{{ a }}" value="{{ a }}">
+          &nbsp;
+          {% endfor %}
+          <br>
+          <br>
+      </form>
+    </div>
+    <div class="callout">
+    <div class="cell">
+       <h4>About <b>{{ artistName }}</b></h4>
+       <hr>
+       {{ artistBio }}
+    </div>
+    </div>
+
+
+    <div class="cell">
+      <br>
+      <br>
+        <h2>Details on <b>{{ eventName }}</b></h2>
+        <hr>
+        <b>Date: </b>{{ date }} at {{ time }}
+        <br>
+        <b>Price (Standard): </b>{{ price }}
+        <br>
+        <b>Venue: </b>{{ venue }}
+        <br>
+        <b>Address: </b>{{ address }}
+        <br>
+        <br>
+        <b>Driving Directions {{ userAddress }}</b>
+        <hr>
+        {{ directions }}
+        <br>
+        <br>
+        <div class="callout primary">
+          <b>Please Note</b>
+          <hr>
+          {{ note }}
+        </div>
+        <br>
+        <div class="grid-x grid-padding-x small-up-2 medium-up-4 large-up-6">
+          <div class="cell"></div>
+          <div class="cell"></div>
+          <div class="cell">
+            <form action={{ url }} target="_blank">
+              <input type="submit" class="success button" value="Purchase Tickets">
+            </form>
+
+          </div>
+          <div class="cell">
+            <form action="#top">
+              <input type="submit" class="button" value="Back to Top">
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}

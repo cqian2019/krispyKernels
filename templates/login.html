@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Login {% endblock %}
+
+{% block content %}
+<br>
+<br>
+<h2 style="text-align: center;"> Krispy Tickets </h2>
+<h4 style="text-align: center;"><small>By Team krispyKernels</small></h4>
+<br>
+<br>
+
+{% with msgs = get_flashed_messages() %}
+{% for each in msgs %}
+<p style="color:red; text-indent:50px">{{each}}</p>
+{% endfor %}
+{% endwith %}
+
+<div class="grid-container">
+  <div class="grid-x grid-padding-x">
+    <div class="cell medium-5 medium-y-block-cell">
+      <form action = "/auth", method="POST">
+        <br>
+        <input type="text" id="username" name="username" placeholder="Enter username">
+        <br>
+        <input type="password" id="password" name="password" placeholder="Enter password">
+        <br><br>
+        <input type="submit" value="Log in" class="button">
+      </form>
+      </div>
+      <div class="cell medium-2 medium-y-block-cell">
+      </div>
+      <div class="cell medium-5 medium-y-block-cell">
+        <br>
+      <form action = "/register", method="POST">
+        <input type="text" id="username" name="username" placeholder="Enter username">
+        <br>
+        <input type="text" id="address" name="address" placeholder="Enter address or location (e.g. Flushing, NY)">
+        <br>
+        <input type="password" id="password" name="password" placeholder="Enter password">
+        <br>
+        <input type="submit" class="button" value="Register">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

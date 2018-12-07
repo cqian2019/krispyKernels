@@ -1,92 +1,121 @@
-
 import urllib.request, json, ssl
 
 ctxt = ssl._create_unverified_context()
 #urlopen("url",context=ctxt) if you get ssl error
 
-def findKey(apiFile):
-    with open(apiFile) as f:
+def findKey(file):
+    with open(file) as f:
         f.readline()
         data = f.readline().strip("\n")
     return data
-
-
 # print(findKey("ticketmaster.txt"))
-
 
 #---------------------TICKET MASTER API (Derek)-----------------------------
 # tmKey = "6OngVrLfArkcPfNuh9GwG3fgAf6HcfQr"
 tmKey = findKey("ticketmaster.txt")
-tmId = ""
-tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0},{1}&radius=50&segmentName=Music&apikey={2}"
-
+tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json?latlong={0}&radius=50&segmentName=Music&apikey={1}"
 #getEvents(location) returns a list of music events - each event is a dictionary with the event name, genre, date, venue, artist lineup, link/url to event page on ticketmaster, and address
-
 #Example --> [ { 'name': 'Winter Concert', 'genre': 'Alt/Rock', 'date': '11/25/2018', 'venue': 'Stuyvesant High School', 'lineup': ['cheryl', 'derek'], 'url': 'ticketmaster.com/concert', 'address': '345 Chambers St'}, {dict2}, {dict3}..... ]
-
 # https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew&mode=fastest;car&waypoint0=geo!-74.013908,40.717892&waypoint1=geo!-73.855571,40.751935
 
-def getEvents(lat, long): #returns a list of events given a latitude and a longitude
-    newUrl = tmUrl.format(lat, long, tmKey)
+def getEvents(loc):
+    newUrl = tmUrl.format(loc, tmKey)
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     tmData = json.loads(tmJson.read())
     events = tmData["_embedded"]["events"]
     return events #list[ {dict1}, {dict2},.... ]
 
-def getEvent(id): #returns the event given its event id
+def getEvent(id):
     newUrl = "https://app.ticketmaster.com/discovery/v2/events/{0}.json?apikey={1}".format(id, tmKey)
     tmJson = urllib.request.urlopen(newUrl, context = ctxt)
     eventDic = json.loads(tmJson.read())
-    return eventDic #dictionary
+    return eventDic
 
-def getEventLocation(event): #gets the longitude and latitude of an event
+def getGeo(event):
     location = event['_embedded']['venues'][0]['location']['latitude'] + ',' + event['_embedded']['venues'][0]['location']['longitude']
-    return location #str
+    return location
 
-def getEventInfo(event): #returns a bunch of info about an event
-    info = []
-    info.append(getName(event))
-    info.append(getDate(event))
-    info.append(getVenue(event))
-    info.append(getGenre(event))
-    info.append(getAddress(event))
-    info.append(getUrl(event))
-    return info #list of strings
+def getId(event):
+    return event["id"]
 
-def getId(event): #returns the event id
-    return event["id"] #str
-
-def getName(event): #returns the event name
+def getName(event):
     return event["name"] #str
 
-def getDate(event): #returns the date of the event
-    return event["dates"]["start"]["localDate"] #str
+def getDate(event):
+    try:
+        return event["dates"]["start"]["localDate"] #str
+    except:
+        return "Date not available"
 
-def getDateTime(event): #returns the UNIX time and date of the event
-    return event["dates"]["start"]["dateTime"] #str
+def getTime(event):
+    try:
+        return event["dates"]["start"]["localTime"] #str
+    except:
+        return "Time not available"
 
-def getVenue(event): #returns the name of the venue
-    return event["_embedded"]["venues"][0]["name"] #str
+def getNote(event):
+    try:
+        return event["pleaseNote"]
+    except:
+        return "No message from organizer"
 
-def getGenre(event): #returns the genre of the event
-    return event["classifications"][0]["genre"]["name"] #str
+def getPrice(event):
+    try:
+        str = str(event['priceRanges']['min']) + " - " + str(event['priceRanges']['max']) + " " + str(event['priceRanges']['currency'])
+        return str
+    except:
+        return "Price not available"
 
-def getLineup(event): #returns the lineup of the event
+def getVenue(event):
+    try:
+        return event["_embedded"]["venues"][0]["name"] #str
+    except:
+        return "Venue not available"
+
+def getGenre(event):
+    try:
+        return event["classifications"][0]["genre"]["name"] #str
+    except:
+        return "Genre not specified"
+
+def getLineup(event):
     lineup = []
-    for attraction in event["_embedded"]["attractions"]:
-        lineup.append(attraction["name"])
-    return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
+    try:
+        for attraction in event["_embedded"]["attractions"]:
+            lineup.append(attraction["name"])
+        return lineup #list[ 'artist1', 'artist2', .... ] #list[ 'artist1', 'artist2', .... ]
+    except:
+        return ["No artists available"]
 
-def getUrl(event): #returns the ticketmaster url of the event
-    return event["url"] #str
+def getUrl(event):
+    try:
+        return event["url"] #str
+    except:
+        return "URL not available"
 
-def getAddress(event): #returns the address of the event.
-    info = event["_embedded"]["venues"][0]
-    address = info["address"]["line1"] + ", " + info["city"]["name"] + ", " + info["state"]["stateCode"] + ", " + info["postalCode"]
-    return address #str
+def getAddress(event):
+    try:
+        info = event["_embedded"]["venues"][0]
+        address = info["address"]["line1"] + ", " + info["city"]["name"] + ", " + info["state"]["stateCode"] + ", " + info["postalCode"]
+        return address #str
+    except:
+        return "Address not available"
 
-# events = getEvents(40.737976, -73.880127)
-
+def getEventInfo(event):
+    events = []
+    events.append(getName(event))
+    events.append(getDate(event))
+    events.append(getGenre(event))
+    events.append(getAddress(event))
+    events.append(getLineup(event))
+    events.append(getId(event))
+    events.append(getTime(event))
+    events.append(getGeo(event))
+    events.append(getVenue(event))
+    events.append(getUrl(event))
+    events.append(getPrice(event))
+    events.append(getNote(event))
+    return events
 
 #---------------------PUBLIC TRANSIT API (Kendrick)-------------------------
 
@@ -98,10 +127,12 @@ def publicDir(start,end): #via public transit (fastest)
     ptUrl = "https://transit.api.here.com/v3/route.json?mode=fastest;publicTransport&combineChange=true&time=2018-11-23T12%1A-00%1A30&app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew"
     ptUrl += "&dep=" + start + "&arr=" + end
     #print(ptUrl)
-    request=urllib.request.urlopen(ptUrl, context = ctxt)
-    raw=request.read()
-    jdict=json.loads(raw)
-    #print(jdict)
+    try:
+        request=urllib.request.urlopen(ptUrl, context = ctxt)
+        raw=request.read()
+        jdict=json.loads(raw)
+    except:
+        return "No directions available"
     route = {}
     directions = ""
     for step in jdict["Res"]["Connections"]["Connection"][0]["Sections"]["Sec"]:
@@ -136,9 +167,12 @@ def publicDir(start,end): #via public transit (fastest)
 def drivingDir(start,end): #via driving (fastest)
     ptUrl = "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=Sx2msD6eY6kgE7WWcgsZ&app_code=kaJCiwVgQgxN23qD2Rkaew&mode=fastest;car"
     ptUrl += "&waypoint0=geo!" + start + "&waypoint1=geo!" + end
-    request = urllib.request.urlopen(ptUrl, context = ctxt)
-    raw=request.read()
-    jdict=json.loads(raw)
+    try:
+        request=urllib.request.urlopen(ptUrl, context = ctxt)
+        raw=request.read()
+        jdict=json.loads(raw)
+    except:
+        return "No directions available"
     route = {}
     directions = ""
     for key in jdict['response']['route'][0]['leg'][0]['maneuver']:
@@ -161,9 +195,7 @@ def toGeo(address): #converts address to geocode/coordinates
     request=urllib.request.urlopen(ptUrl, context = ctxt)
     raw=request.read()
     jdict=json.loads(raw)
-    geocode=[]
-    geocode.append(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"])
-    geocode.append(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Longitude"])
+    geocode=str(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Latitude"]) + "," + str(jdict["Response"]["View"][0]["Result"][0]["Location"]["DisplayPosition"]["Longitude"])
     #print(geocode)
     return geocode
 
@@ -194,66 +226,57 @@ def suggest(address): #returns suggestions for a mistyped address
 # adKey = "195003"
 adKey = findKey("theaudiodb.txt")
 
-def getInfo(artist):
-    # retVal = "http://www.theaudiodb.com/api/v1/json/195003/search.php?s="
-    retVal = "http://www.theaudiodb.com/api/v1/json/{0}/search.php?s=".format(adKey)
-    retVal += artist
-    # print(retVal)
-    readUrl = urllib.request.urlopen(retVal, context = ctxt)
-    hiJson = json.loads(readUrl.read())
+def getBio(artist):
+    name = artist.replace(" ", "+")
+    url = "http://www.theaudiodb.com/api/v1/json/{0}/search.php?s={1}".format(adKey, name)
+    req = urllib.request.urlopen(url, context = ctxt)
+    jdata = json.loads(req.read())
     info = {}
-    info['artist'] = hiJson['artists'][0]['strArtist']
-    info['bio'] = hiJson['artists'][0]['strBiographyEN']
-    info['style'] = hiJson['artists'][0]['strStyle']
-    info['genre'] = hiJson['artists'][0]['strGenre']
-    info['id'] = hiJson['artists'][0]['idArtist']
-    return info #dict of info { 'artist':'str', 'bio':'str', 'style':'str', 'genre':'str', 'id': int
-
-# getInfo("a")
+    bio = ""
+    try:
+        info['bio'] = jdata['artists'][0]['strBiographyEN']
+        info['id'] = jdata['artists'][0]['idArtist']
+        return info
+    except:
+        info['bio'] = "Artist information not found."
+        return info
 
 def getAlbums(artist):
     name = artist.replace(" ", "+")
-    url = "https://theaudiodb.com/api/v1/json/{0}/searchalbum.php?s=".format(adKey)
-    url += name
+    url = "https://theaudiodb.com/api/v1/json/{0}/searchalbum.php?s={1}".format(adKey, name)
     req = urllib.request.urlopen(url, context = ctxt)
     jdata = json.loads(req.read())
     albumList = []
-    for a in jdata['album']:
-        album = {}
-        album['name'] = a['strAlbum']
+    try:
+        for a in jdata['album']:
+            album = {}
+            album['name'] = a['strAlbum']
         album['date'] = a['intYearReleased']
         album['id'] = a['idAlbum']
         albumList.append(album)
-    return albumList
+        return albumList
+    except:
+        return ["No albums found at this time."]
 
 def getAlbumId(artist,album):#uses album name
-    url = "https://theaudiodb.com/api/v1/json/{0}/searchalbum.php?s={1}&a={2}".format(adKey,artist,album)
+    url = "https://theaudiodb.com/api/v1/json/195003/searchalbum.php?s={0}&a={1}".format(artist,album)
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(readUrl.read())
     id = jdata['idAlbum']
     return id
 
 def getTracks(albumId):
-    url = "https://theaudiodb.com/api/v1/json/{0}/track.php?m=".format(adKey)
-    url += albumId
+    url = "https://theaudiodb.com/api/v1/json/195003/track.php?m=" + albumId
     req = urllib.request.urlopen(url, context=ctxt)
     jdata = json.loads(req.read())
     tracks=[]
-    for t in jdata['track']:
-        tracks.append(t['strTrack'])
-    return tracks
+    try:
+        for t in jdata['track']:
+            tracks.append(t['strTrack'])
+        return tracks
+    except:
+        return ["No tracks found at this time."]
 
-def getMvs(artistId):
-    url = "https://theaudiodb.com/api/v1/json/{0}/mvid.php?i={1}".format(adKey,artistId)
-    req = urllib.request.urlopen(url, context=ctxt)
-    jdata = json.loads(req.read())
-    tracks = []
-    for t in jdata['mvids']:
-        mv = {}
-        mv['url'] = t['strMusicVid']
-        mv['name'] = t['strTrack']
-        tracks.append(mv)
-    return tracks
 
 
 #---------------------------DARK SKY API (Simon)---------------------------
@@ -262,8 +285,12 @@ dsKey = findKey("darksky.txt")
 dsUrl = ""
 
 #returns weather with provided geocode and date
+dsKey = findKey("darksky.txt")
+dsUrl = ""
+
+#returns weather with provided geocode and date
 def weather(date,latlong):
-    retstr= "https://api.darksky.net/forecast/{0}/{1},{2}".format(dsKey, latlong, date)
+    retstr= "https://api.darksky.net/forecast/{0}/{1}".format(dsKey, latlong)
     print(retstr)
     req = urllib.request.urlopen(retstr, context=ctxt)
     jdata = json.loads(req.read())
@@ -273,5 +300,3 @@ def weather(date,latlong):
     if(jdata['currently']['precipProbability'] != 0):
         retdata['Precipitation Type:'] = jdata['currently']['precipType']
     return retdata #str
-
-print(weather(0,'42.3601,-71.0589'))

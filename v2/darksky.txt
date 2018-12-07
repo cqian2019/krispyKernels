@@ -1,2 +1,0 @@
-Insert API key for darksky in line below:
-284833a5391e29e9498e6f1adc9c656e
