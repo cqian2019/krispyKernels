@@ -57,8 +57,7 @@ def home():
 @app.route('/logout')
 def logout():
     if 'username' in session:
-        for each in session:
-            session.pop(each)
+        session.clear()
     return redirect('/')
 
 @app.route('/register', methods=["POST"])
@@ -121,6 +120,8 @@ def search():
         session['search'] = search
         if 'artist' in session:
             session.pop('artist')
+        if 'id' in session:
+            session.pop('id')
     except:
         return redirect('/')
     flash('Did you mean ' + search + '? ' )
@@ -132,6 +133,7 @@ def settings():
     if 'username' in session:
         return render_template("settings.html")
     return redirect('/')
+
 @app.route('/event', methods=["GET","POST"])
 def event():
     eventId = list(request.values)[0]
